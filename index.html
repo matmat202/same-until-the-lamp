@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Same Until the Lamp</title>
+<meta name="description" content="Two colours that match in daylight and come apart under a warm bulb. A new pair every day.">
+<style>
+  :root { --bg: #f4f4f2; --ink: #1d1d1b; --muted: #5d5d58; --rule: #d6d6d0; }
+  @media (prefers-color-scheme: dark) { :root { --bg: #1b1b1a; --ink: #ecece8; --muted: #a8a8a0; --rule: #3a3a37; } }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
+  main { max-width: 40rem; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+  h1 { font-size: 1.6rem; margin: 0 0 .2rem; }
+  .date { color: var(--muted); margin: 0 0 1.2rem; }
+  .stage { padding: 1.2rem; border-radius: 6px; background: #808080; transition: background-color 1.6s ease-out; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+  .sw { aspect-ratio: 1; transition: background-color 1.6s ease-out; }
+  .stage.raw, .stage.raw .sw { transition-duration: .08s; }
+  .controls { display: flex; gap: .6rem; margin: 1rem 0 .4rem; flex-wrap: wrap; align-items: center; }
+  button { font: inherit; padding: .55rem 1rem; border-radius: 6px; border: 1px solid var(--ink); background: var(--ink); color: var(--bg); cursor: pointer; }
+  button.alt { background: transparent; color: var(--ink); border-color: var(--rule); }
+  #state { color: var(--muted); min-height: 1.5em; margin: 0 0 1.2rem; }
+  h2 { font-size: 1.05rem; margin: 2rem 0 .4rem; }
+  svg { width: 100%; height: auto; display: block; }
+  .axis { stroke: var(--rule); }
+  .lbl { fill: var(--muted); font-size: 20px; }
+  .fine { color: var(--muted); font-size: .9rem; }
+  a { color: inherit; }
+  @media (prefers-reduced-motion: reduce) { .stage, .sw { transition: none; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Same Until the Lamp</h1>
+  <p class="date" id="date"></p>
+
+  <div class="stage" id="stage">
+    <div class="pair"><div class="sw" id="s0"></div><div class="sw" id="s1"></div></div>
+  </div>
+
+  <div class="controls">
+    <button id="toggle" type="button">Switch on the warm bulb</button>
+    <button id="share" type="button" class="alt">Share today's pair</button>
+  </div>
+  <p id="state" aria-live="polite"></p>
+
+  <p>In daylight these two squares are the same colour. They are not the same paint. Under a warm
+  incandescent bulb, once your eyes have adjusted, they come apart. Colours that match under one
+  light and not another are called <em>metamers</em>. A new pair appears every day.</p>
+
+  <h2>Why they match, and why they stop matching</h2>
+  <p>Your eye reduces all the light coming off a surface to three numbers, one per kind of cone. Two very different
+  reflection curves can land on the same three numbers under daylight. Change the light and the curves are
+  weighted differently, so the numbers move apart.</p>
+  <svg id="chart" viewBox="0 0 600 260" role="img" aria-label="Reflectance of the two paints by wavelength"></svg>
+  <p class="fine" id="legend"></p>
+
+  <h2>How this was made</h2>
+  <p class="fine">Each day's two reflectance curves are smooth, physically possible (between 3% and 95% at every wavelength),
+  and chosen by optimisation to match within CIEDE2000 0.5 under CIE illuminant D65 (daylight) while differing as much as
+  possible under CIE illuminant A (a 2848 K tungsten bulb), with both squares inside the sRGB gamut under both lights.
+  Colours use the CIE 1931 2° observer, and the bulb view uses CAT02 chromatic adaptation to show what you see once your eyes
+  have adjusted. The first flash is the bulb before adaptation. A screen can only <em>simulate</em> this: it shows you the
+  colours your eye would report, not the paints themselves. CIE colour-matching data from
+  <a href="http://www.cvrl.org/">CVRL</a>.</p>
+</main>
+<script src="metamer.js"></script>
+</body>
+</html>
