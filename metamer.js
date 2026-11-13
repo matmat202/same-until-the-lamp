@@ -44,6 +44,14 @@ async function main() {
   const stage = $("stage"), sw = [$("s0"), $("s1")], state = $("state"), btn = $("toggle");
   $("date").textContent = date.toLocaleDateString(undefined, { weekday: "long", year: "numeric", month: "long", day: "numeric" });
 
+  // Yesterday's pair, and so on back; forward only as far as today, so tomorrow stays new.
+  const shift = n => new Date(date.getFullYear(), date.getMonth(), date.getDate() + n);
+  const now = new Date(), isToday = isoDate(date) === isoDate(now);
+  $("prev").href = "?d=" + isoDate(shift(-1));
+  if (isoDate(date) < isoDate(now)) { $("next").href = "?d=" + isoDate(shift(1)); $("next").hidden = false; }
+  $("today").hidden = isToday;
+  if (!isToday) $("share").textContent = "Share this pair";
+
   let bulb = false, timer = null;
   function paint(which, grey) {
     stage.style.backgroundColor = grey;

@@ -21,13 +21,17 @@
   body { margin: 0; background: var(--bg); color: var(--ink); font: 17px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; }
   main { max-width: 40rem; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
   h1 { font-size: 1.6rem; margin: 0 0 .2rem; }
-  .date { color: var(--muted); margin: 0 0 1.2rem; }
+  .date { color: var(--muted); margin: 0 0 .3rem; }
+  .days { display: flex; gap: 1.2rem; margin: 0 0 1rem; font-size: .95rem; }
+  .days a { padding: .3rem 0; }
+  .days a[hidden] { display: none; }
   .stage { padding: 1.2rem; border-radius: 6px; background: #808080; transition: background-color 1.6s ease-out; }
   .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
   .sw { aspect-ratio: 1; transition: background-color 1.6s ease-out; }
   .stage.raw, .stage.raw .sw { transition-duration: .08s; }
   .controls { display: flex; gap: .6rem; margin: 1rem 0 .4rem; flex-wrap: wrap; align-items: center; }
   button { font: inherit; padding: .55rem 1rem; border-radius: 6px; border: 1px solid var(--ink); background: var(--ink); color: var(--bg); cursor: pointer; }
+  #toggle { min-width: 15rem; }
   button.alt { background: transparent; color: var(--ink); border-color: var(--rule); }
   #state { color: var(--muted); min-height: 1.5em; margin: 0 0 1.2rem; }
   h2 { font-size: 1.05rem; margin: 2rem 0 .4rem; }
@@ -43,6 +47,11 @@
 <main>
   <h1>Same Until the Lamp</h1>
   <p class="date" id="date"></p>
+  <nav class="days" aria-label="Other days">
+    <a id="prev" href="?">&larr; Previous day</a>
+    <a id="next" href="?" hidden>Next day &rarr;</a>
+    <a id="today" href="./" hidden>Today</a>
+  </nav>
 
   <div class="stage" id="stage">
     <div class="pair"><div class="sw" id="s0"></div><div class="sw" id="s1"></div></div>
