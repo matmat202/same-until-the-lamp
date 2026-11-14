@@ -33,7 +33,8 @@
   button { font: inherit; padding: .55rem 1rem; border-radius: 6px; border: 1px solid var(--ink); background: var(--ink); color: var(--bg); cursor: pointer; }
   #toggle { min-width: 15rem; }
   button.alt { background: transparent; color: var(--ink); border-color: var(--rule); }
-  #state { color: var(--muted); min-height: 1.5em; margin: 0 0 1.2rem; }
+  #state { color: var(--muted); min-height: 1.5em; margin: 0 0 .3rem; }
+  #gap { margin: 0 0 1.2rem; }
   h2 { font-size: 1.05rem; margin: 2rem 0 .4rem; }
   svg { width: 100%; height: auto; display: block; }
   .axis { stroke: var(--rule); }
@@ -62,6 +63,7 @@
     <button id="share" type="button" class="alt">Share today's pair</button>
   </div>
   <p id="state" aria-live="polite"></p>
+  <p class="fine" id="gap"></p>
 
   <p>In daylight these two squares are the same colour. They are not the same paint. Under a warm
   incandescent bulb, once your eyes have adjusted, they come apart. Colours that match under one

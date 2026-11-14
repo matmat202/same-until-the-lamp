@@ -78,6 +78,10 @@ async function main() {
   btn.addEventListener("click", () => { bulb = !bulb; bulb ? lamp() : daylight(); });
   daylight();
 
+  // How far apart, in the unit the pair was built in; the day's own numbers, checked against its curves by test.py.
+  $("gap").textContent = `How far apart, in CIEDE2000 units (about 1 is the smallest difference most people can see side by side): ` +
+    `${day.match.toFixed(1)} in daylight, ${Math.round(day.split)} under the bulb.`;
+
   chart($("chart"), data.nm, day.curves, day.bulb);
   $("legend").textContent = "Solid line: the left square. Dashed: the right square. Each line is drawn in the colour its square takes under the bulb.";
 
