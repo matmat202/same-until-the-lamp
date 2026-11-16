@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Every pair comes apart the same way · Same Until the Lamp: a story</title>
+<meta name="description" content="A story from Same Until the Lamp: the page’s 366 daily pairs match in daylight in every colour there is, but under a warm bulb all of them come apart along one line, green against magenta, inside a 16° fan. Metamers nobody optimised lean the same way.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="plot" aria-hidden="true"></div>
+<p id="err" role="alert"></p>
+<main>
+
+<section class="step" data-step="daylight"><div>
+  <p class="kicker">Same Until the Lamp · a story</p>
+  <h1>Every pair comes apart the same way</h1>
+  <p><a href="../">Same Until the Lamp</a> shows two squares a day that match in daylight and
+  stop matching under a warm bulb. Here are all <b data-fact="n"></b> days at once, each pair
+  drawn as one dot in the colour it shows in daylight, on a map of colour: green to the left,
+  red to the right, yellow up, blue down.</p>
+  <p>The pairs come in every colour there is.</p>
+  <p class="small">They sit in a ring because the program aims each day at a random hue of the same strength.</p>
+  <p class="small">Scroll ↓</p>
+</div></section>
+
+<section class="step" data-step="bulb"><div>
+  <p class="kicker">Chapter 1 · The bulb goes on</p>
+  <h2>All the lines are parallel</h2>
+  <p>Switch on the bulb and let your eyes adjust, and each dot splits in two. A line joins
+  one square’s new colour to the other’s.</p>
+  <p>Teal, orange, pink, olive: whatever colour the pair started as, its line points the same
+  way, from green over to magenta.</p>
+</div></section>
+
+<section class="step" data-step="fan"><div>
+  <p class="kicker">Chapter 2 · One direction</p>
+  <h2>A fan <b data-fact="width"></b> wide</h2>
+  <p>Move every line so it starts at the centre and they make one narrow fan: all
+  <b data-fact="n"></b> directions lie within <b data-fact="width"></b> of each other, out of a
+  possible 180.</p>
+  <p>The squares hardly change in lightness. Typically they end up <b data-fact="ab_median"></b>
+  units apart in colour but only <b data-fact="dL_median"></b> in lightness.</p>
+  <p>And it is always the same square that goes magenta: on all <b data-fact="redder"></b> days,
+  the one that reflects more light above 620 nm, the red end of the rainbow.</p>
+  <p class="small">The bulb gives off more red light and less blue than daylight. The two paints
+  balance out under daylight, so the bulb tips that balance towards whichever paint leans
+  on the red end.</p>
+</div></section>
+
+<section class="step" data-step="random"><div>
+  <p class="kicker">Chapter 3 · Not the optimiser</p>
+  <h2>Pairs nobody chose lean the same way</h2>
+  <p>The page’s pairs are not random: a program picked each one to come apart as far as
+  possible. Perhaps the fan is the program’s habit. So here are
+  <b data-fact="n_random"></b> metameric pairs nobody optimised: a random paint, plus and
+  minus a random curve that daylight cannot see.</p>
+  <p>They split much less, so they are drawn <b data-fact="random_scale"></b> larger, but
+  <b data-fact="random_share"></b> of them still point into the same <b data-fact="fan"></b>
+  fan, against <b data-fact="chance"></b> by chance: <b data-fact="times_chance"></b> as often.
+  Of the biggest tenth of their splits, <b data-fact="big_share"></b> are in it. The direction belongs to
+  the lamp; the program just finds where the lamp splits paints most.</p>
+  <p class="small">Found by looking, so checked two other ways: the eye’s adjustment to the
+  bulb modelled the Bradford way instead of CAT02, the daily fan is <b data-fact="brad_width"></b>
+  wide and <b data-fact="brad_share"></b> of the random pairs fall in it; with no adjustment model at
+  all, <b data-fact="none_width"></b> and <b data-fact="none_share"></b>.</p>
+</div></section>
+
+<section class="step" data-step="cross"><div>
+  <p class="kicker">Chapter 4 · Where the paints differ</p>
+  <h2>Every pair’s curves cross at least three times</h2>
+  <p>Each square is a curve: how much light the paint reflects at each wavelength. For two
+  different curves to look the same to an eye with three kinds of cone, the textbooks say,
+  they must cross at least three times. They do: <b data-fact="cross3"></b> pairs cross
+  three times, <b data-fact="cross4"></b> cross four times, and none fewer.</p>
+  <p>The crossings fall in three places: around <b data-fact="band1"></b> (blue),
+  <b data-fact="band2"></b> (green) and <b data-fact="band3"></b> (orange). Past the last one,
+  one paint reflects more red light than the other, and the bulb is mostly red light.</p>
+</div></section>
+
+<section class="step" data-step="daylight"><div>
+  <p class="kicker">Epilogue · Today’s pair</p>
+  <h2>Try it on today’s pair</h2>
+  <p><a href="../">Same Until the Lamp</a> has a new pair every day. Switch on the bulb and
+  watch which square goes magenta.</p>
+  <p class="small">The colours are the page’s own: reflectance curves built from smooth
+  bumps, CIE 1931 2° observer from <a href="http://www.cvrl.org/">CVRL</a>, daylight
+  is CIE illuminant D65, the bulb is CIE illuminant A (a 2848 K tungsten lamp), and the eye’s
+  adjustment is CAT02. Directions are on the CIELAB a*b* plane. A screen only simulates this,
+  and a different bulb (an LED, say) would push in its own direction; this counts only the one
+  lamp the page uses. The program is
+  <a href="https://github.com/matmat202/same-until-the-lamp/blob/main/story/build_story.py">in the repository</a>.</p>
+</div></section>
+
+</main>
+<script type="module" src="story.js"></script>
+</body>
+</html>
