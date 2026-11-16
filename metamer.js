@@ -86,7 +86,8 @@ async function main() {
   $("legend").textContent = "Solid line: the left square. Dashed: the right square. Each line is drawn in the colour its square takes under the bulb.";
 
   $("share").addEventListener("click", async () => {
-    const url = location.origin + location.pathname + "?d=" + isoDate(date);
+    // The day's own stub (card.py): its link preview shows THIS pair, and it forwards ?d= to this page.
+    const url = new URL(`day/${String(dayIndex(date)).padStart(3, "0")}.html?d=${isoDate(date)}`, location.href).href;
     const text = "These two squares are the same colour, until you switch on a lamp.";
     try {
       if (navigator.share) await navigator.share({ title: "Same Until the Lamp", text, url });
