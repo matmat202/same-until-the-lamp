@@ -82,6 +82,20 @@ async function main() {
   $("gap").textContent = `How far apart, in CIEDE2000 units (about 1 is the smallest difference most people can see side by side): ` +
     `${day.match.toFixed(1)} in daylight, ${Math.round(day.split)} under the bulb.`;
 
+  // Every split runs green against magenta, the axis a deuteranope barely sees (day.deutan, Machado 2009,
+  // re-derived from the shown squares by test.py). Say so, and point to the past day that splits most for them.
+  let best = null;
+  for (let k = 0; k < 366; k++) {
+    const t = shift(-k), e = data.days[Math.min(dayIndex(t), data.days.length - 1)];
+    if (!best || e.deutan > best.e.deutan) best = { t, e };
+  }
+  const dn = Math.round(day.deutan);
+  $("cvd").innerHTML = `Red-green colour-blind? With deuteranopia (simulated), this pair is ${dn} apart under the bulb` +
+    (dn < 5 ? `, so it may still look like one colour to you.` : `.`) +
+    (isoDate(best.t) === isoDate(date) ? ` No pair in the past year comes apart more for you.`
+      : ` The pair from <a href="?d=${isoDate(best.t)}">${best.t.toLocaleDateString(undefined, { month: "long", day: "numeric" })}</a>` +
+        ` comes apart most for you: ${Math.round(best.e.deutan)}.`);
+
   chart($("chart"), data.nm, day.curves, day.bulb);
   $("legend").textContent = "Solid line: the left square. Dashed: the right square. Each line is drawn in the colour its square takes under the bulb.";
 
