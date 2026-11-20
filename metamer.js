@@ -41,7 +41,7 @@ async function main() {
   const data = await (await fetch("pairs.json")).json();
   const day = data.days[Math.min(dayIndex(date), data.days.length - 1)];
   const $ = id => document.getElementById(id);
-  const stage = $("stage"), sw = [$("s0"), $("s1")], state = $("state"), btn = $("toggle");
+  const stage = $("stage"), sw = [$("s0"), $("s1")], state = $("state"), btn = $("toggle"), ledBtn = $("led");
   $("date").textContent = date.toLocaleDateString(undefined, { weekday: "long", year: "numeric", month: "long", day: "numeric" });
 
   // Yesterday's pair, and so on back; forward only as far as today, so tomorrow stays new.
@@ -52,7 +52,9 @@ async function main() {
   $("today").hidden = isToday;
   if (!isToday) $("share").textContent = "Share this pair";
 
-  let bulb = false, timer = null;
+  // Two lamps: the old incandescent (CIE A) and a warm-white LED (CIE LED-B1), the bulb most homes have now.
+  const LAMP_NAME = { bulb: "Bulb", led: "LED" };
+  let on = null, timer = null;
   function paint(which, grey) {
     stage.style.backgroundColor = grey;
     sw.forEach((el, i) => { el.style.backgroundColor = day[which][i]; });
@@ -61,26 +63,32 @@ async function main() {
     clearTimeout(timer);
     stage.classList.remove("raw");
     paint("daylight", data.grey.daylight);
+    on = null;
     btn.textContent = "Switch on the warm bulb";
+    ledBtn.textContent = "…or a warm LED";
     state.textContent = "Daylight: the two squares match.";
   }
-  function lamp() {
+  function lamp(which) {
+    clearTimeout(timer);
+    on = which;
     stage.classList.add("raw");
-    paint("bulb_raw", data.grey.bulb_raw);
-    state.textContent = "Bulb on: everything goes orange at first…";
-    btn.textContent = "Back to daylight";
+    paint(which + "_raw", data.grey[which + "_raw"]);
+    state.textContent = `${LAMP_NAME[which]} on: everything goes orange at first…`;
+    btn.textContent = which === "bulb" ? "Back to daylight" : "Switch on the warm bulb";
+    ledBtn.textContent = which === "led" ? "Back to daylight" : "…or a warm LED";
     timer = setTimeout(() => {
       stage.classList.remove("raw");
-      paint("bulb", data.grey.bulb);
+      paint(which, data.grey[which]);
       state.textContent = "…then your eyes adjust, and the two squares are no longer the same colour.";
     }, 700);
   }
-  btn.addEventListener("click", () => { bulb = !bulb; bulb ? lamp() : daylight(); });
+  btn.addEventListener("click", () => { on === "bulb" ? daylight() : lamp("bulb"); });
+  ledBtn.addEventListener("click", () => { on === "led" ? daylight() : lamp("led"); });
   daylight();
 
   // How far apart, in the unit the pair was built in; the day's own numbers, checked against its curves by test.py.
   $("gap").textContent = `How far apart, in CIEDE2000 units (about 1 is the smallest difference most people can see side by side): ` +
-    `${day.match.toFixed(1)} in daylight, ${Math.round(day.split)} under the bulb.`;
+    `${day.match.toFixed(1)} in daylight, ${Math.round(day.split)} under the bulb, ${Math.round(day.led_split)} under a warm LED.`;
 
   // Every split runs green against magenta, the axis a deuteranope barely sees (day.deutan, Machado 2009,
   // re-derived from the shown squares by test.py). Say so, and point to the past day that splits most for them.

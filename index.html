@@ -32,6 +32,7 @@
   .controls { display: flex; gap: .6rem; margin: 1rem 0 .4rem; flex-wrap: wrap; align-items: center; }
   button { font: inherit; padding: .55rem 1rem; border-radius: 6px; border: 1px solid var(--ink); background: var(--ink); color: var(--bg); cursor: pointer; }
   #toggle { min-width: 15rem; }
+  #led { min-width: 11rem; }
   button.alt { background: transparent; color: var(--ink); border-color: var(--rule); }
   #state { color: var(--muted); min-height: 1.5em; margin: 0 0 .3rem; }
   #gap { margin: 0 0 1.2rem; }
@@ -60,6 +61,7 @@
 
   <div class="controls">
     <button id="toggle" type="button">Switch on the warm bulb</button>
+    <button id="led" type="button">…or a warm LED</button>
     <button id="share" type="button" class="alt">Share today's pair</button>
   </div>
   <p id="state" aria-live="polite"></p>
@@ -67,7 +69,8 @@
   <p class="fine" id="cvd"></p>
 
   <p>In daylight these two squares are the same colour. They are not the same paint. Under a warm
-  incandescent bulb, once your eyes have adjusted, they come apart. Colours that match under one
+  incandescent bulb, once your eyes have adjusted, they come apart, and almost as far under the warm-white LEDs
+  most homes have now. Colours that match under one
   light and not another are called <em>metamers</em>. A new pair appears every day.</p>
 
   <p class="fine">A story from all 366 pairs: <a href="story/">Every pair comes apart the same way</a>.
@@ -84,7 +87,8 @@
   and chosen by optimisation to match within CIEDE2000 0.5 under CIE illuminant D65 (daylight) while differing as much as
   possible under CIE illuminant A (a 2848 K tungsten bulb), with both squares inside the sRGB gamut under both lights.
   Colours use the CIE 1931 2° observer, and the bulb view uses CAT02 chromatic adaptation to show what you see once your eyes
-  have adjusted. The first flash is the bulb before adaptation. A screen can only <em>simulate</em> this: it shows you the
+  have adjusted. The LED is CIE illuminant LED-B1 (CIE 15:2018), a 2733 K phosphor-converted warm white; the pairs were
+  not chosen for it, so its split is a by-product, nearly as large. The first flash is the lamp before adaptation. A screen can only <em>simulate</em> this: it shows you the
   colours your eye would report, not the paints themselves. CIE colour-matching data from
   <a href="http://www.cvrl.org/">CVRL</a>.</p>
 </main>
