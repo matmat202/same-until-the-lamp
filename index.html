@@ -35,6 +35,12 @@
   #led { min-width: 11rem; }
   button.alt { background: transparent; color: var(--ink); border-color: var(--rule); }
   #state { color: var(--muted); min-height: 1.5em; margin: 0 0 .3rem; }
+  @media (max-width: 34rem) { #state { min-height: 3em; } }  /* the adapted line wraps on a phone: keep the text below still */
+  .week { display: grid; grid-template-columns: repeat(7, 1fr); gap: .45rem; margin: .4rem 0 .3rem; }
+  .week a { text-decoration: none; text-align: center; font-size: .8rem; line-height: 1.25; color: var(--muted); border-radius: 4px; padding: 3px 3px 1px; }
+  .week a[aria-current] { color: var(--ink); font-weight: 600; box-shadow: 0 0 0 2px var(--ink); }  /* not outline: focus must still change it */
+  .week a:focus-visible { outline: 3px solid var(--ink); outline-offset: 3px; }
+  .tile { display: grid; grid-template-columns: 1fr 1fr; aspect-ratio: 1; border: 3px solid #808080; }
   #gap { margin: 0 0 1.2rem; }
   h2 { font-size: 1.05rem; margin: 2rem 0 .4rem; }
   svg { width: 100%; height: auto; display: block; }
@@ -72,6 +78,10 @@
   incandescent bulb, once your eyes have adjusted, they come apart, and almost as far under the warm-white LEDs
   most homes have now. Colours that match under one
   light and not another are called <em>metamers</em>. A new pair appears every day.</p>
+
+  <h2>The last seven pairs</h2>
+  <nav class="week" id="week" aria-label="The last seven days' pairs"></nav>
+  <p class="fine">Top half: the pair in daylight. Bottom half: the same pair under the bulb. Tap a day to try it.</p>
 
   <p class="fine">A story from all 366 pairs: <a href="story/">Every pair comes apart the same way</a>.
   Under the bulb, every day's two squares move apart along one line, green against magenta, inside a 16° fan.</p>
