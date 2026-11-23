@@ -76,6 +76,7 @@ async function main() {
     state.textContent = `${LAMP_NAME[which]} on: everything goes orange at first…`;
     btn.textContent = which === "bulb" ? "Back to daylight" : "Switch on the warm bulb";
     ledBtn.textContent = which === "led" ? "Back to daylight" : "…or a warm LED";
+    describe(which);
     timer = setTimeout(() => {
       stage.classList.remove("raw");
       paint(which, data.grey[which]);
@@ -104,16 +105,22 @@ async function main() {
       : ` The pair from <a href="?d=${isoDate(best.t)}">${best.t.toLocaleDateString(undefined, { month: "long", day: "numeric" })}</a>` +
         ` comes apart most for you: ${Math.round(best.e.deutan)}.`);
 
-  // The week ending on the shown day: each tile is that day's pair, daylight on top, the bulb below.
-  $("week").innerHTML = [6, 5, 4, 3, 2, 1, 0].map(k => {
-    const t = shift(-k), e = data.days[Math.min(dayIndex(t), data.days.length - 1)];
-    const cells = [...e.daylight, ...e.bulb].map(c => `<span style="background:${c}"></span>`).join("");
-    return `<a href="?d=${isoDate(t)}"${k ? "" : ' aria-current="page"'}><span class="tile">${cells}</span>` +
-      `${t.toLocaleDateString(undefined, { weekday: "short" })}<br>${t.getDate()}</a>`;
-  }).join("");
-
-  chart($("chart"), data.nm, day.curves, day.bulb);
-  $("legend").textContent = "Solid line: the left square. Dashed: the right square. Each line is drawn in the colour its square takes under the bulb.";
+  // The week strip and the chart show the last lamp switched on (the bulb until one is): someone who tried
+  // the LED, the lamp they own, should not be shown the bulb's colours under a caption that says "the bulb".
+  function describe(which) {
+    const lampName = which === "led" ? "a warm LED" : "the bulb";
+    // The week ending on the shown day: each tile is that day's pair, daylight on top, the lamp below.
+    $("week").innerHTML = [6, 5, 4, 3, 2, 1, 0].map(k => {
+      const t = shift(-k), e = data.days[Math.min(dayIndex(t), data.days.length - 1)];
+      const cells = [...e.daylight, ...e[which]].map(c => `<span style="background:${c}"></span>`).join("");
+      return `<a href="?d=${isoDate(t)}"${k ? "" : ' aria-current="page"'}><span class="tile">${cells}</span>` +
+        `${t.toLocaleDateString(undefined, { weekday: "short" })}<br>${t.getDate()}</a>`;
+    }).join("");
+    $("weeknote").textContent = `Top half: the pair in daylight. Bottom half: the same pair under ${lampName}. Tap a day to try it.`;
+    chart($("chart"), data.nm, day.curves, day[which]);
+    $("legend").textContent = `Solid line: the left square. Dashed: the right square. Each line is drawn in the colour its square takes under ${lampName}.`;
+  }
+  describe("bulb");
 
   $("share").addEventListener("click", async () => {
     // The day's own stub (card.py): its link preview shows THIS pair, and it forwards ?d= to this page.
