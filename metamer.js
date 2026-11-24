@@ -101,13 +101,14 @@ async function main() {
     if (!best || cvdBest(e) > cvdBest(best.e)) best = { t, e };
   }
   const dn = Math.round(day.deutan), ln = Math.round(day.led_deutan);
+  // last year's November 25 must not read as tomorrow on November 24: give the year when it differs
   const bestLamp = best.e.led_deutan >= best.e.deutan ? "a warm LED" : "the bulb";
   $("cvd").innerHTML = `Red-green colour-blind? With deuteranopia (simulated), this pair is ${dn} apart under the bulb and ${ln} under a warm LED` +
     (dn < 5 && ln < 5 ? `, so under either lamp it may still look like one colour to you.`
       : dn < 5 ? `, so try the LED: under the bulb it may still look like one colour to you.`
       : ln < 5 ? `, so try the bulb: under the LED it may still look like one colour to you.` : `.`) +
     (isoDate(best.t) === isoDate(date) ? ` No pair in the past year comes apart more for you.`
-      : ` The pair from <a href="?d=${isoDate(best.t)}">${best.t.toLocaleDateString(undefined, { month: "long", day: "numeric" })}</a>` +
+      : ` The pair from <a href="?d=${isoDate(best.t)}">${best.t.toLocaleDateString(undefined, { month: "long", day: "numeric", year: best.t.getFullYear() === date.getFullYear() ? undefined : "numeric" })}</a>` +
         ` comes apart most for you: ${Math.round(cvdBest(best.e))}, under ${bestLamp}.`);
 
   // The week strip and the chart show the last lamp switched on (the bulb until one is): someone who tried
