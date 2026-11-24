@@ -91,19 +91,24 @@ async function main() {
   $("gap").textContent = `How far apart, in CIEDE2000 units (about 1 is the smallest difference most people can see side by side): ` +
     `${day.match.toFixed(1)} in daylight, ${Math.round(day.split)} under the bulb, ${Math.round(day.led_split)} under a warm LED.`;
 
-  // Every split runs green against magenta, the axis a deuteranope barely sees (day.deutan, Machado 2009,
-  // re-derived from the shown squares by test.py). Say so, and point to the past day that splits most for them.
+  // Every split runs green against magenta, the axis a deuteranope barely sees (day.deutan and day.led_deutan,
+  // Machado 2009, re-derived from the shown squares by test.py). The LED's bluer peak usually leaves the pair
+  // further apart for them (on 363 of 366 days), so name both lamps, and point to the past day that splits most.
+  const cvdBest = e => Math.max(e.deutan, e.led_deutan);
   let best = null;
   for (let k = 0; k < 366; k++) {
     const t = shift(-k), e = data.days[Math.min(dayIndex(t), data.days.length - 1)];
-    if (!best || e.deutan > best.e.deutan) best = { t, e };
+    if (!best || cvdBest(e) > cvdBest(best.e)) best = { t, e };
   }
-  const dn = Math.round(day.deutan);
-  $("cvd").innerHTML = `Red-green colour-blind? With deuteranopia (simulated), this pair is ${dn} apart under the bulb` +
-    (dn < 5 ? `, so it may still look like one colour to you.` : `.`) +
+  const dn = Math.round(day.deutan), ln = Math.round(day.led_deutan);
+  const bestLamp = best.e.led_deutan >= best.e.deutan ? "a warm LED" : "the bulb";
+  $("cvd").innerHTML = `Red-green colour-blind? With deuteranopia (simulated), this pair is ${dn} apart under the bulb and ${ln} under a warm LED` +
+    (dn < 5 && ln < 5 ? `, so under either lamp it may still look like one colour to you.`
+      : dn < 5 ? `, so try the LED: under the bulb it may still look like one colour to you.`
+      : ln < 5 ? `, so try the bulb: under the LED it may still look like one colour to you.` : `.`) +
     (isoDate(best.t) === isoDate(date) ? ` No pair in the past year comes apart more for you.`
       : ` The pair from <a href="?d=${isoDate(best.t)}">${best.t.toLocaleDateString(undefined, { month: "long", day: "numeric" })}</a>` +
-        ` comes apart most for you: ${Math.round(best.e.deutan)}.`);
+        ` comes apart most for you: ${Math.round(cvdBest(best.e))}, under ${bestLamp}.`);
 
   // The week strip and the chart show the last lamp switched on (the bulb until one is): someone who tried
   // the LED, the lamp they own, should not be shown the bulb's colours under a caption that says "the bulb".
